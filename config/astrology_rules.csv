@@ -1,0 +1,14 @@
+signal_type,signal,event,quality,base_weight,explanation
+planet,sun,opportunity,activation,0.50,self-expression and attention
+planet,moon,encounter,receptivity,0.60,emotion and intimate exchange
+planet,mercury,discovery,clarity,0.70,"information, communication, learning"
+planet,venus,encounter,receptivity,0.75,relationships and attraction
+planet,mars,discovery,activation,0.55,drive and immediate action
+planet,jupiter,opportunity,expansion,0.80,opportunities of expansion and growth
+planet,saturn,opportunity,grounding,0.55,"structure, responsibility, long-term stability"
+planet,uranus,discovery,expansion,0.80,sudden discoveries and turning points
+planet,neptune,encounter,flow,0.50,"sensitivity, imagination, blurred boundaries"
+element,fire,encounter,activation,0.40,fire element — outward energy
+element,earth,opportunity,grounding,0.40,earth element — substance and stability
+element,air,discovery,clarity,0.40,air element — thought and communication
+element,water,encounter,receptivity,0.40,water element — sensitivity and reception

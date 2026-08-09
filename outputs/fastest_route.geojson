@@ -1,0 +1,382 @@
+{
+ "type": "FeatureCollection",
+ "properties": {
+  "route_type": "fastest",
+  "total_length_m": 1406.4,
+  "mean_luck": 0.4919
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -74.002,
+      40.728
+     ],
+     [
+      -74.0008,
+      40.728
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 0,
+    "order": 0,
+    "length_m": 101.2,
+    "luck_score": 0.3882,
+    "route_type": "fastest",
+    "green": 0.18,
+    "water": 0.075,
+    "sunlight": 0.897,
+    "open_sky": 0.547,
+    "quiet": 0.059,
+    "vibrant": 0.387,
+    "rest": 0.673,
+    "culture": 0.272
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -74.0008,
+      40.728
+     ],
+     [
+      -73.9996,
+      40.728
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 13,
+    "order": 1,
+    "length_m": 101.2,
+    "luck_score": 0.5974,
+    "route_type": "fastest",
+    "green": 0.439,
+    "water": 0.595,
+    "sunlight": 0.588,
+    "open_sky": 0.492,
+    "quiet": 0.314,
+    "vibrant": 0.694,
+    "rest": 0.941,
+    "culture": 0.795
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.9996,
+      40.728
+     ],
+     [
+      -73.9984,
+      40.728
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 26,
+    "order": 2,
+    "length_m": 101.2,
+    "luck_score": 0.4302,
+    "route_type": "fastest",
+    "green": 0.42,
+    "water": 0.499,
+    "sunlight": 0.563,
+    "open_sky": 0.465,
+    "quiet": 0.112,
+    "vibrant": 0.11,
+    "rest": 0.589,
+    "culture": 0.695
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.9984,
+      40.728
+     ],
+     [
+      -73.9972,
+      40.728
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 39,
+    "order": 3,
+    "length_m": 101.2,
+    "luck_score": 0.4129,
+    "route_type": "fastest",
+    "green": 0.237,
+    "water": 0.093,
+    "sunlight": 0.265,
+    "open_sky": 0.908,
+    "quiet": 0.062,
+    "vibrant": 0.937,
+    "rest": 0.458,
+    "culture": 0.255
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.9972,
+      40.728
+     ],
+     [
+      -73.996,
+      40.728
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 52,
+    "order": 4,
+    "length_m": 101.2,
+    "luck_score": 0.665,
+    "route_type": "fastest",
+    "green": 0.872,
+    "water": 0.8,
+    "sunlight": 0.741,
+    "open_sky": 0.876,
+    "quiet": 0.269,
+    "vibrant": 0.681,
+    "rest": 0.209,
+    "culture": 0.713
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.996,
+      40.728
+     ],
+     [
+      -73.9948,
+      40.728
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 65,
+    "order": 5,
+    "length_m": 101.2,
+    "luck_score": 0.5668,
+    "route_type": "fastest",
+    "green": 0.693,
+    "water": 0.793,
+    "sunlight": 0.902,
+    "open_sky": 0.628,
+    "quiet": 0.083,
+    "vibrant": 0.312,
+    "rest": 0.562,
+    "culture": 0.485
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.9948,
+      40.728
+     ],
+     [
+      -73.9948,
+      40.7292
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 78,
+    "order": 6,
+    "length_m": 133.2,
+    "luck_score": 0.497,
+    "route_type": "fastest",
+    "green": 0.174,
+    "water": 0.321,
+    "sunlight": 0.821,
+    "open_sky": 0.26,
+    "quiet": 0.921,
+    "vibrant": 0.455,
+    "rest": 0.746,
+    "culture": 0.379
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.9948,
+      40.7292
+     ],
+     [
+      -73.9948,
+      40.7304
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 79,
+    "order": 7,
+    "length_m": 133.2,
+    "luck_score": 0.3472,
+    "route_type": "fastest",
+    "green": 0.771,
+    "water": 0.171,
+    "sunlight": 0.455,
+    "open_sky": 0.178,
+    "quiet": 0.344,
+    "vibrant": 0.512,
+    "rest": 0.04,
+    "culture": 0.268
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.9948,
+      40.7304
+     ],
+     [
+      -73.9948,
+      40.7316
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 80,
+    "order": 8,
+    "length_m": 133.2,
+    "luck_score": 0.3826,
+    "route_type": "fastest",
+    "green": 0.211,
+    "water": 0.092,
+    "sunlight": 0.443,
+    "open_sky": 0.533,
+    "quiet": 0.542,
+    "vibrant": 0.323,
+    "rest": 0.981,
+    "culture": 0.025
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.9948,
+      40.7316
+     ],
+     [
+      -73.9948,
+      40.7328
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 81,
+    "order": 9,
+    "length_m": 133.2,
+    "luck_score": 0.5363,
+    "route_type": "fastest",
+    "green": 0.984,
+    "water": 0.68,
+    "sunlight": 0.528,
+    "open_sky": 0.286,
+    "quiet": 0.534,
+    "vibrant": 0.284,
+    "rest": 0.078,
+    "culture": 0.885
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.9948,
+      40.7328
+     ],
+     [
+      -73.9948,
+      40.734
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 82,
+    "order": 10,
+    "length_m": 133.2,
+    "luck_score": 0.6101,
+    "route_type": "fastest",
+    "green": 0.999,
+    "water": 0.594,
+    "sunlight": 0.767,
+    "open_sky": 0.821,
+    "quiet": 0.11,
+    "vibrant": 0.009,
+    "rest": 0.63,
+    "culture": 0.896
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -73.9948,
+      40.734
+     ],
+     [
+      -73.9948,
+      40.7352
+     ]
+    ]
+   },
+   "properties": {
+    "segment_id": 83,
+    "order": 11,
+    "length_m": 133.2,
+    "luck_score": 0.4953,
+    "route_type": "fastest",
+    "green": 0.241,
+    "water": 0.162,
+    "sunlight": 0.834,
+    "open_sky": 0.869,
+    "quiet": 0.47,
+    "vibrant": 0.333,
+    "rest": 0.183,
+    "culture": 0.758
+   }
+  }
+ ]
+}

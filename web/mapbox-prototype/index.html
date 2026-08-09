@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Lucky Path — Williamsburg route recommendation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="map">
+    <svg id="fallback"></svg>
+  </div>
+
+  <header id="topbar">
+    <div>
+      <h1>Lucky Path</h1>
+      <p class="sub">Williamsburg route recommendation</p>
+    </div>
+    <button class="dots" id="open-chart" aria-label="open saju × zodiac chart">•••</button>
+  </header>
+
+  <!-- Saju × Zodiac 상세 분석 오버레이 -->
+  <div id="chart-overlay">
+    <div class="cv-wrap">
+      <header class="cv-top">
+        <div>
+          <h1>Saju × Zodiac</h1>
+          <p class="sub">Natal analysis · born <span id="cv-birth"></span></p>
+        </div>
+        <button class="dots" id="chart-close" aria-label="close">✕</button>
+      </header>
+      <div id="chart-content"></div>
+    </div>
+  </div>
+
+  <section id="sheet">
+    <div class="sheet-head" id="sheet-head">
+      <div class="thumb"><svg id="thumb" viewBox="0 0 64 64"></svg></div>
+      <div class="head-main">
+        <h2>Today's Lucky Route</h2>
+        <div class="stats">
+          <div><label>Distance</label><b id="stat-distance">–</b></div>
+          <div><label>Duration</label><b id="stat-duration">–</b></div>
+          <div><label>Mode</label><b id="stat-mode">–</b></div>
+        </div>
+      </div>
+      <div class="badge">🚶</div>
+    </div>
+
+    <div class="sheet-body">
+      <p id="date" class="muted"></p>
+      <p id="sentence" class="reading"></p>
+
+      <button class="chart-link" id="open-chart-2">✦ &nbsp;View full Saju × Zodiac analysis</button>
+
+      <div class="group">
+        <h3>Routes</h3>
+        <label class="toggle"><input type="checkbox" id="show-fastest" checked />
+          <span class="swatch fastest"></span>Fastest route <em id="fastest-stat"></em></label>
+        <label class="toggle"><input type="checkbox" id="show-lucky" checked />
+          <span class="swatch lucky"></span>Lucky route <em id="lucky-stat"></em></label>
+      </div>
+
+      <div class="group">
+        <h3>How the city will be read today</h3>
+        <div id="city-reading"></div>
+      </div>
+
+      <div class="group">
+        <h3>Today's luck type</h3>
+        <div id="events"></div>
+      </div>
+
+      <div class="group">
+        <h3>Today's qualities</h3>
+        <div id="daily-qualities"></div>
+      </div>
+
+      <div class="group">
+        <h3>Evidence</h3>
+        <ul id="evidence"></ul>
+      </div>
+
+      <p class="muted small">
+        Data: <code>engine/daily_reading.json</code>, <code>outputs/*.geojson</code> ·
+        Run <code>python -m http.server</code> from the repo root.
+      </p>
+    </div>
+  </section>
+
+  <button id="fab" aria-label="expand details">⤢</button>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
+  <script src="chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

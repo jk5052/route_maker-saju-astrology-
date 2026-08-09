@@ -1,0 +1,485 @@
+{
+  "date": "2026-07-21",
+  "birth": "1994-02-02",
+  "birth_time": "08:30",
+  "saju": {
+    "event": {
+      "encounter": 0.33,
+      "opportunity": 0.503,
+      "discovery": 0.451
+    },
+    "quality": {
+      "activation": 0.33,
+      "receptivity": 0.451,
+      "clarity": 0.33,
+      "expansion": 0.0,
+      "grounding": 0.0,
+      "flow": 0.259
+    }
+  },
+  "astrology": {
+    "event": {
+      "encounter": 0.803,
+      "opportunity": 0.537,
+      "discovery": 0.885
+    },
+    "quality": {
+      "activation": 0.607,
+      "receptivity": 0.738,
+      "clarity": 0.438,
+      "expansion": 0.71,
+      "grounding": 0.166,
+      "flow": 0.247
+    }
+  },
+  "combined": {
+    "event": {
+      "encounter": 0.567,
+      "opportunity": 0.52,
+      "discovery": 0.668
+    },
+    "quality": {
+      "activation": 0.469,
+      "receptivity": 0.595,
+      "clarity": 0.384,
+      "expansion": 0.355,
+      "grounding": 0.083,
+      "flow": 0.253
+    }
+  },
+  "dominant_event": "discovery",
+  "top_qualities": [
+    "receptivity",
+    "activation"
+  ],
+  "evidence": [
+    {
+      "source": "astrology",
+      "signal_type": "planet",
+      "signal": "uranus",
+      "detail": "transit uranus trine natal mars (orb 0.48°, strength 0.814)",
+      "event": "discovery",
+      "quality": "expansion",
+      "score": 0.651,
+      "explanation": "sudden discoveries and turning points"
+    },
+    {
+      "source": "saju",
+      "signal_type": "ten_god",
+      "signal": "정인",
+      "detail": "today's stem (Bing) is Direct Resource (Zhengyin) relative to the day master (Ji)",
+      "event": "discovery",
+      "quality": "receptivity",
+      "score": 0.6,
+      "explanation": "learning, help, patronage"
+    },
+    {
+      "source": "astrology",
+      "signal_type": "planet",
+      "signal": "jupiter",
+      "detail": "transit jupiter opposition natal mars (orb 0.49°, strength 0.735)",
+      "event": "opportunity",
+      "quality": "expansion",
+      "score": 0.588,
+      "explanation": "opportunities of expansion and growth"
+    },
+    {
+      "source": "saju",
+      "signal_type": "element",
+      "signal": "fire",
+      "detail": "fire is active in today's pillar",
+      "event": "encounter",
+      "quality": "activation",
+      "score": 0.4,
+      "explanation": "visibility and outward activity"
+    },
+    {
+      "source": "saju",
+      "signal_type": "element",
+      "signal": "metal",
+      "detail": "metal is active in today's pillar",
+      "event": "opportunity",
+      "quality": "clarity",
+      "score": 0.4,
+      "explanation": "clarity and structure"
+    },
+    {
+      "source": "astrology",
+      "signal_type": "element",
+      "signal": "air",
+      "detail": "transit sun/moon sign element: air",
+      "event": "discovery",
+      "quality": "clarity",
+      "score": 0.4,
+      "explanation": "air element — thought and communication"
+    },
+    {
+      "source": "astrology",
+      "signal_type": "element",
+      "signal": "water",
+      "detail": "transit sun/moon sign element: water",
+      "event": "encounter",
+      "quality": "receptivity",
+      "score": 0.4,
+      "explanation": "water element — sensitivity and reception"
+    },
+    {
+      "source": "astrology",
+      "signal_type": "planet",
+      "signal": "moon",
+      "detail": "transit moon trine natal saturn (orb 1.34°, strength 0.659)",
+      "event": "encounter",
+      "quality": "receptivity",
+      "score": 0.395,
+      "explanation": "emotion and intimate exchange"
+    }
+  ],
+  "sentence": "Today's dominant luck type is 'Discovery'. Receptivity and Activation are the qualities emphasized today. Pay attention to new information found on unfamiliar streets and places.",
+  "llm_payload": {
+    "dominant_event": "discovery",
+    "top_qualities": [
+      "receptivity",
+      "activation"
+    ],
+    "evidence": [
+      "[astrology] transit uranus trine natal mars (orb 0.48°, strength 0.814) → sudden discoveries and turning points",
+      "[saju] today's stem (Bing) is Direct Resource (Zhengyin) relative to the day master (Ji) → learning, help, patronage",
+      "[astrology] transit jupiter opposition natal mars (orb 0.49°, strength 0.735) → opportunities of expansion and growth",
+      "[saju] fire is active in today's pillar → visibility and outward activity",
+      "[saju] metal is active in today's pillar → clarity and structure",
+      "[astrology] transit sun/moon sign element: air → air element — thought and communication",
+      "[astrology] transit sun/moon sign element: water → water element — sensitivity and reception",
+      "[astrology] transit moon trine natal saturn (orb 1.34°, strength 0.659) → emotion and intimate exchange"
+    ],
+    "instructions": "Do not alter the computed results or add new astrology/Saju signals. Explain today's luck type and qualities in plain English, in three sentences or fewer. Do not make definitive predictions; frame everything as possibilities to notice and gentle suggestions."
+  },
+  "quality_weights": {
+    "green": 0.1265,
+    "water": 0.1308,
+    "sunlight": 0.1329,
+    "open_sky": 0.1469,
+    "quiet": 0.1172,
+    "vibrant": 0.1264,
+    "rest": 0.1013,
+    "culture": 0.1179
+  },
+  "raw": {
+    "saju": {
+      "date": "2026-07-21",
+      "birth": "1994-02-02",
+      "birth_time": "08:30",
+      "backend": "lunar_python",
+      "natal": {
+        "pillars": {
+          "year": {
+            "stem": "계",
+            "branch": "유",
+            "stem_element": "water",
+            "branch_element": "metal",
+            "stem_polarity": "yin"
+          },
+          "month": {
+            "stem": "을",
+            "branch": "축",
+            "stem_element": "wood",
+            "branch_element": "earth",
+            "stem_polarity": "yin"
+          },
+          "day": {
+            "stem": "기",
+            "branch": "미",
+            "stem_element": "earth",
+            "branch_element": "earth",
+            "stem_polarity": "yin"
+          },
+          "hour": {
+            "stem": "무",
+            "branch": "진",
+            "stem_element": "earth",
+            "branch_element": "earth",
+            "stem_polarity": "yang"
+          }
+        },
+        "day_master": {
+          "stem": "기",
+          "element": "earth",
+          "polarity": "yin"
+        },
+        "element_distribution": {
+          "wood": 1,
+          "fire": 0,
+          "earth": 5,
+          "metal": 1,
+          "water": 1
+        },
+        "excess_elements": [
+          "earth"
+        ],
+        "deficient_elements": [
+          "fire"
+        ]
+      },
+      "today": {
+        "pillar": {
+          "stem": "병",
+          "branch": "신",
+          "stem_element": "fire",
+          "branch_element": "metal",
+          "stem_polarity": "yang"
+        },
+        "active_elements": [
+          "fire",
+          "metal"
+        ]
+      },
+      "signals": {
+        "daily_ten_god": "정인",
+        "active_elements": [
+          "fire",
+          "metal"
+        ],
+        "interactions": [],
+        "deficient_elements_active": [
+          "fire"
+        ],
+        "excess_elements_active": []
+      }
+    },
+    "astrology": {
+      "date": "2026-07-21",
+      "birth": "1994-02-02",
+      "backend": "astronomy_engine",
+      "natal_positions": {
+        "sun": {
+          "lon": 313.41,
+          "sign": "aquarius"
+        },
+        "moon": {
+          "lon": 212.47,
+          "sign": "scorpio"
+        },
+        "mercury": {
+          "lon": 331.38,
+          "sign": "pisces"
+        },
+        "venus": {
+          "lon": 317.35,
+          "sign": "aquarius"
+        },
+        "mars": {
+          "lon": 304.15,
+          "sign": "aquarius"
+        },
+        "jupiter": {
+          "lon": 223.61,
+          "sign": "scorpio"
+        },
+        "saturn": {
+          "lon": 330.53,
+          "sign": "pisces"
+        },
+        "uranus": {
+          "lon": 293.48,
+          "sign": "capricorn"
+        },
+        "neptune": {
+          "lon": 291.68,
+          "sign": "capricorn"
+        }
+      },
+      "transit_positions": {
+        "sun": {
+          "lon": 118.76,
+          "sign": "cancer"
+        },
+        "moon": {
+          "lon": 209.19,
+          "sign": "libra"
+        },
+        "mercury": {
+          "lon": 106.59,
+          "sign": "cancer"
+        },
+        "venus": {
+          "lon": 162.93,
+          "sign": "virgo"
+        },
+        "mars": {
+          "lon": 75.91,
+          "sign": "gemini"
+        },
+        "jupiter": {
+          "lon": 124.64,
+          "sign": "leo"
+        },
+        "saturn": {
+          "lon": 14.72,
+          "sign": "aries"
+        },
+        "uranus": {
+          "lon": 64.63,
+          "sign": "gemini"
+        },
+        "neptune": {
+          "lon": 4.37,
+          "sign": "aries"
+        }
+      },
+      "aspects": [
+        {
+          "transit": "uranus",
+          "natal": "mars",
+          "aspect": "trine",
+          "orb": 0.48,
+          "strength": 0.814
+        },
+        {
+          "transit": "jupiter",
+          "natal": "mars",
+          "aspect": "opposition",
+          "orb": 0.49,
+          "strength": 0.735
+        },
+        {
+          "transit": "moon",
+          "natal": "saturn",
+          "aspect": "trine",
+          "orb": 1.34,
+          "strength": 0.659
+        },
+        {
+          "transit": "mars",
+          "natal": "venus",
+          "aspect": "trine",
+          "orb": 1.44,
+          "strength": 0.641
+        },
+        {
+          "transit": "neptune",
+          "natal": "mars",
+          "aspect": "sextile",
+          "orb": 0.22,
+          "strength": 0.567
+        },
+        {
+          "transit": "moon",
+          "natal": "mercury",
+          "aspect": "trine",
+          "orb": 2.19,
+          "strength": 0.506
+        },
+        {
+          "transit": "venus",
+          "natal": "jupiter",
+          "aspect": "sextile",
+          "orb": 0.68,
+          "strength": 0.498
+        },
+        {
+          "transit": "moon",
+          "natal": "moon",
+          "aspect": "conjunction",
+          "orb": 3.28,
+          "strength": 0.453
+        },
+        {
+          "transit": "mars",
+          "natal": "sun",
+          "aspect": "trine",
+          "orb": 2.5,
+          "strength": 0.45
+        },
+        {
+          "transit": "saturn",
+          "natal": "sun",
+          "aspect": "sextile",
+          "orb": 1.31,
+          "strength": 0.403
+        },
+        {
+          "transit": "jupiter",
+          "natal": "moon",
+          "aspect": "square",
+          "orb": 2.17,
+          "strength": 0.396
+        },
+        {
+          "transit": "mercury",
+          "natal": "jupiter",
+          "aspect": "trine",
+          "orb": 2.98,
+          "strength": 0.364
+        },
+        {
+          "transit": "uranus",
+          "natal": "mercury",
+          "aspect": "square",
+          "orb": 3.25,
+          "strength": 0.245
+        },
+        {
+          "transit": "saturn",
+          "natal": "venus",
+          "aspect": "sextile",
+          "orb": 2.63,
+          "strength": 0.206
+        },
+        {
+          "transit": "sun",
+          "natal": "moon",
+          "aspect": "square",
+          "orb": 3.71,
+          "strength": 0.181
+        },
+        {
+          "transit": "uranus",
+          "natal": "saturn",
+          "aspect": "square",
+          "orb": 4.1,
+          "strength": 0.126
+        },
+        {
+          "transit": "mercury",
+          "natal": "neptune",
+          "aspect": "opposition",
+          "orb": 5.09,
+          "strength": 0.121
+        },
+        {
+          "transit": "sun",
+          "natal": "uranus",
+          "aspect": "opposition",
+          "orb": 5.28,
+          "strength": 0.096
+        },
+        {
+          "transit": "sun",
+          "natal": "mars",
+          "aspect": "opposition",
+          "orb": 5.39,
+          "strength": 0.081
+        },
+        {
+          "transit": "moon",
+          "natal": "mars",
+          "aspect": "square",
+          "orb": 4.96,
+          "strength": 0.006
+        }
+      ],
+      "signals": {
+        "active_elements": [
+          "air",
+          "water"
+        ],
+        "moon_phase": {
+          "angle_deg": 90.4,
+          "name": "first_quarter",
+          "fullness": 0.505
+        },
+        "natal_sun_sign": "aquarius",
+        "transit_sun_sign": "cancer"
+      }
+    }
+  }
+}

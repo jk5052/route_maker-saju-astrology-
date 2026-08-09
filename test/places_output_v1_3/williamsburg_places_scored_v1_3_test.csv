@@ -1,0 +1,4 @@
+place_id,name,latitude,longitude,primary_type,types,social_component,access_component,query_groups,search_passes
+ChIJsUQC89lbwokRr1MfzBa3Pmo,Schaefer Landing,40.7090921,-73.96986199999999,city_park,city_park|establishment|park|point_of_interest,0.5,0.3,social_culture_public,base
+ChIJuQBHKtpbwokRSIsUxu2aXiU,Elowel,40.7084663,-73.96857539999999,clothing_store,clothing_store|establishment|point_of_interest|store,0.0,0.8,access_retail_goods,base
+ChIJ95v23BROK6oRWJswD5z-2Ak,SKY SHOT Media Drone photography and Ariel video,40.70879600000001,-73.9687796,service,electronics_store|establishment|point_of_interest|service|store,0.0,0.8,access_retail_goods,base

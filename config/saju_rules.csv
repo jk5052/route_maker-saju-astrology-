@@ -1,0 +1,21 @@
+signal_type,signal,event,quality,weight,explanation
+ten_god,비견,encounter,grounding,0.55,cooperation and networks with peers
+ten_god,겁재,encounter,activation,0.50,competition and stimulation — tension among people
+ten_god,식신,discovery,expansion,0.65,expression and new production
+ten_god,상관,discovery,activation,0.60,attempts that break the existing frame
+ten_god,정재,opportunity,grounding,0.65,stable resources and steady transactions
+ten_god,편재,opportunity,activation,0.70,external resources and practical opportunities
+ten_god,정관,opportunity,clarity,0.60,"roles, responsibility, recognition"
+ten_god,편관,opportunity,activation,0.55,challenging duties and opportunity under pressure
+ten_god,정인,discovery,receptivity,0.60,"learning, help, patronage"
+ten_god,편인,discovery,clarity,0.55,intuition and unconventional ideas
+element,wood,discovery,expansion,0.40,energy of growth and expansion
+element,fire,encounter,activation,0.40,visibility and outward activity
+element,earth,opportunity,grounding,0.40,stability and support
+element,metal,opportunity,clarity,0.40,clarity and structure
+element,water,encounter,receptivity,0.30,reception and sensitivity
+element,water,encounter,flow,0.30,flow and movement
+interaction,combination,encounter,receptivity,0.35,possibility of connection and union (He)
+interaction,clash,discovery,activation,0.25,change and unpredictability (Chong)
+natal_balance,deficient_element_active,opportunity,flow,0.30,a day that replenishes a lacking element
+natal_balance,excess_element_active,discovery,activation,0.15,a day that further amplifies an abundant element

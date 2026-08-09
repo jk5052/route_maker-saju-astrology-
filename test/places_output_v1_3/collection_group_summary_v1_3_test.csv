@@ -1,0 +1,8 @@
+group,type_count,base_raw_results,base_saturated_requests,refine_raw_results,residual_saturated_requests,types
+social_cafes_bars,5,0,0,0,0,cafe|coffee_shop|bar|pub|night_club
+social_restaurants_food,4,1,0,0,0,restaurant|bakery|food_court|ice_cream_shop
+social_culture_public,12,4,0,0,0,community_center|coworking_space|library|book_store|art_gallery|museum|performing_arts_theater|movie_theater|event_venue|live_music_venue|park|plaza
+access_daily_resources,8,0,0,0,0,farmers_market|market|supermarket|grocery_store|convenience_store|department_store|pharmacy|drugstore
+access_health_civic,9,0,0,0,0,medical_clinic|doctor|dentist|bank|atm|post_office|laundry|fitness_center|gym
+access_retail_goods,9,3,0,0,0,clothing_store|electronics_store|hardware_store|home_goods_store|bicycle_store|pet_store|cell_phone_store|furniture_store|gift_shop
+access_personal_mixed,5,0,0,0,0,beauty_salon|hair_salon|barber_shop|florist|shopping_mall

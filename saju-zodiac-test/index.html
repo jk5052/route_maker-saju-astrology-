@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucky Chart — Saju × Zodiac</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b09;
+    --panel: #141613;
+    --panel-2: #1a1d18;
+    --edge: rgba(255,255,255,0.07);
+    --ink: #f4f6f0;
+    --ink-dim: #9aa093;
+    --ink-faint: #6b7065;
+    --lime: #d7fb3f;
+    --lime-soft: rgba(215,251,63,0.14);
+    --lime-glow: rgba(215,251,63,0.45);
+    --sheet-ink: #14160f;
+    --sheet-dim: #8d9184;
+    --wood: #7ed49a;
+    --fire: #ff8a70;
+    --earth: #e0b56e;
+    --metal: #ccd2dc;
+    --water: #7cb5f2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ---------- map-grid backdrop ---------- */
+  .gridmap {
+    position: fixed; inset: -30%; z-index: 0; pointer-events: none;
+    background-image:
+      repeating-linear-gradient(0deg,  rgba(255,255,255,0.05) 0 1px, transparent 1px 84px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 62px),
+      repeating-linear-gradient(0deg,  rgba(255,255,255,0.025) 0 1px, transparent 1px 21px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 16px);
+    transform: rotate(-16deg) scale(1.15);
+  }
+  .gridmap::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 38%, transparent 30%, rgba(10,11,9,0.85) 100%),
+      linear-gradient(180deg, rgba(10,11,9,0.55), transparent 30%, transparent 65%, rgba(10,11,9,0.8));
+  }
+  /* glowing route line drawn on the backdrop */
+  .route {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .8;
+  }
+  .route polyline {
+    fill: none; stroke: var(--lime); stroke-width: 3.5;
+    stroke-linejoin: round; stroke-linecap: round;
+    filter: drop-shadow(0 0 6px var(--lime-glow)) drop-shadow(0 0 18px rgba(215,251,63,0.25));
+    stroke-dasharray: 1600; stroke-dashoffset: 1600;
+    animation: draw 2.4s ease forwards .3s;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .route circle.node { fill: #fff; }
+  .route circle.halo { fill: none; stroke: var(--lime); stroke-width: 3; opacity: .8;
+    filter: drop-shadow(0 0 8px var(--lime-glow)); }
+
+  .wrap {
+    position: relative; z-index: 1;
+    max-width: 640px; margin: 0 auto; padding: 44px 20px 72px;
+  }
+
+  /* ---------- header ---------- */
+  .topbar { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 34px; }
+  h1 { font-size: clamp(30px, 6vw, 40px); font-weight: 800; letter-spacing: -0.03em; }
+  .topbar .sub { margin-top: 6px; color: var(--ink-dim); font-size: 15px; font-weight: 500; }
+  .dots {
+    width: 46px; height: 46px; border-radius: 50%; flex: none;
+    background: rgba(255,255,255,0.07); border: 1px solid var(--edge);
+    display: grid; place-items: center; color: var(--ink); font-weight: 800; letter-spacing: 1px;
+    font-size: 15px; user-select: none;
+  }
+
+  /* ---------- panels ---------- */
+  .panel {
+    background: linear-gradient(170deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--edge);
+    border-radius: 24px;
+    padding: 26px 22px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+  }
+  .panel + .panel, #result .panel { margin-top: 16px; }
+
+  .field { margin-bottom: 20px; }
+  label.lbl {
+    display: block; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 8px;
+  }
+  input[type="text"], input[type="date"], input[type="time"] {
+    width: 100%; padding: 14px 15px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; color: var(--ink);
+    font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500;
+    outline: none; transition: border-color .2s, box-shadow .2s;
+    color-scheme: dark;
+  }
+  input:focus { border-color: var(--lime); box-shadow: 0 0 0 3px var(--lime-soft); }
+  input:disabled { opacity: .4; }
+  .check-row {
+    display: flex; align-items: center; gap: 9px; margin-top: 10px;
+    color: var(--ink-dim); font-size: 13.5px; font-weight: 500; user-select: none; cursor: pointer;
+  }
+  .check-row input { accent-color: var(--lime); width: 16px; height: 16px; cursor: pointer; }
+
+  .btn {
+    width: 100%; padding: 17px;
+    font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 800; letter-spacing: -0.01em;
+    color: #171a06;
+    background: var(--lime);
+    border: none; border-radius: 16px; cursor: pointer;
+    transition: transform .15s, box-shadow .15s, filter .15s;
+    box-shadow: 0 0 0 1px rgba(215,251,63,0.4), 0 10px 32px rgba(215,251,63,0.28);
+  }
+  .btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .btn:active { transform: translateY(0); }
+  .err { color: var(--fire); font-size: 14px; margin-top: 10px; display: none; font-weight: 500; }
+
+  /* ---------- result ---------- */
+  #result { display: none; }
+  .fade-in { animation: rise .55s cubic-bezier(.2,.7,.3,1) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  /* hero */
+  .hero-res { text-align: center; padding: 34px 20px 10px; }
+  .hero-res .glyphs {
+    font-size: 38px; font-weight: 700; color: var(--lime);
+    text-shadow: 0 0 18px var(--lime-glow), 0 0 40px rgba(215,251,63,0.25);
+    margin-bottom: 14px;
+  }
+  .eyebrow {
+    font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--lime); font-weight: 700; margin-bottom: 10px;
+  }
+  .hero-res h2 { font-size: clamp(28px, 5.6vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+
+  /* white sheet card (reference style) */
+  .sheet {
+    background: #fff; color: var(--sheet-ink);
+    border-radius: 26px; padding: 20px;
+    margin-top: 22px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+  }
+  .sheet-top { display: flex; align-items: center; gap: 16px; }
+  .thumb {
+    width: 74px; height: 74px; flex: none; border-radius: 18px;
+    background: #14160f;
+    display: grid; place-items: center;
+    color: var(--lime); font-size: 24px; font-weight: 700; line-height: 1.15; text-align: center;
+    text-shadow: 0 0 10px var(--lime-glow);
+  }
+  .sheet-title { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; }
+  .sheet-sub { margin-top: 3px; color: var(--sheet-dim); font-size: 13.5px; font-weight: 500; }
+  .mode-badge {
+    margin-left: auto; width: 52px; height: 52px; flex: none; border-radius: 50%;
+    background: #eef4d8; display: grid; place-items: center; font-size: 22px;
+  }
+  .stats {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 18px; padding-top: 4px;
+  }
+  .stats > div { padding: 4px 14px; border-left: 1px solid #e6e8df; }
+  .stats > div:first-child { border-left: none; padding-left: 2px; }
+  .stats label { display: block; color: var(--sheet-dim); font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .stats b { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
+
+  /* sections */
+  .section h3 {
+    font-size: 20px; font-weight: 800; letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: 9px; flex-wrap: wrap;
+  }
+  .section h3 .han { color: var(--lime); font-weight: 600; font-size: 17px; }
+  .tagline {
+    color: var(--ink-faint); font-size: 11.5px; letter-spacing: .14em;
+    text-transform: uppercase; font-weight: 700; margin: 7px 0 14px;
+  }
+  p.body { color: #c9cec0; line-height: 1.75; font-size: 15px; }
+  p.body + p.body { margin-top: 12px; }
+  p.body b { color: var(--ink); }
+
+  /* pillars */
+  .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 4px; }
+  .pillar {
+    text-align: center; padding: 15px 5px 13px;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid var(--edge);
+    border-radius: 16px;
+  }
+  .pillar.me { border-color: rgba(215,251,63,0.45); background: var(--lime-soft); }
+  .pillar .p-title { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 9px; font-weight: 700; }
+  .pillar.me .p-title { color: var(--lime); }
+  .pillar .hanja { font-size: 28px; line-height: 1.25; font-weight: 500; }
+  .pillar .p-en { font-size: 11px; color: var(--ink-dim); margin-top: 7px; line-height: 1.45; font-weight: 500; }
+  .pillar.unknown .hanja { color: var(--ink-faint); font-size: 20px; padding: 7px 0; }
+
+  /* element pills */
+  .el-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .el-pill {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 13px; border-radius: 999px;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid var(--edge);
+    font-size: 13.5px; font-weight: 700;
+  }
+  .el-pill .dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
+  .el-pill .cnt { color: var(--ink-dim); font-weight: 500; }
+  .el-note { margin-top: 14px; color: #c9cec0; font-size: 14px; line-height: 1.7; }
+  .el-note b { color: var(--ink); }
+
+  /* chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 14px; }
+  .chip {
+    padding: 6px 13px; border-radius: 999px; font-size: 12.5px; font-weight: 700;
+    background: var(--lime-soft); border: 1px solid rgba(215,251,63,0.35);
+    color: var(--lime);
+  }
+
+  /* lucky grid */
+  .lucky { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 18px; }
+  .lucky-item {
+    padding: 15px 12px; text-align: center;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid var(--edge); border-radius: 16px;
+  }
+  .lucky-item .l-label { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; margin-bottom: 7px; }
+  .lucky-item .l-val { font-size: 15px; font-weight: 700; }
+
+  .again {
+    display: block; width: 100%; margin-top: 16px; padding: 16px;
+    background: rgba(255,255,255,0.05); color: var(--ink-dim);
+    border: 1px solid var(--edge); border-radius: 16px;
+    font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer;
+    transition: color .2s, border-color .2s;
+  }
+  .again:hover { color: var(--lime); border-color: rgba(215,251,63,0.4); }
+
+  .disclaimer { text-align: center; color: var(--ink-faint); font-size: 12px; margin-top: 26px; line-height: 1.6; font-weight: 500; }
+
+  @media (max-width: 560px) {
+    .pillars { grid-template-columns: repeat(2, 1fr); }
+    .stats b { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="gridmap"></div>
+<svg class="route" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
+  <polyline points="118,150 122,240 168,262 158,318 214,338 226,420 258,468 262,548 296,600 302,668"/>
+  <circle class="halo" cx="118" cy="150" r="11"/><circle class="node" cx="118" cy="150" r="5"/>
+  <circle class="halo" cx="302" cy="668" r="11"/><circle class="node" cx="302" cy="668" r="5"/>
+</svg>
+
+<div class="wrap">
+  <header class="topbar">
+    <div>
+      <h1>Lucky Chart</h1>
+      <div class="sub">Saju × Zodiac reading</div>
+    </div>
+    <div class="dots">•••</div>
+  </header>
+
+  <!-- ============ INPUT ============ -->
+  <div class="panel" id="formCard">
+    <div class="field">
+      <label class="lbl" for="name">Your name (optional)</label>
+      <input type="text" id="name" placeholder="e.g. Jayce" maxlength="30">
+    </div>
+    <div class="field">
+      <label class="lbl" for="bdate">Date of birth</label>
+      <input type="date" id="bdate" min="1900-01-01" max="2026-12-31">
+    </div>
+    <div class="field">
+      <label class="lbl" for="btime">Time of birth</label>
+      <input type="time" id="btime" value="12:00">
+      <label class="check-row">
+        <input type="checkbox" id="noTime">
+        I don't know my birth time (the Hour Pillar will be skipped)
+      </label>
+    </div>
+    <button class="btn" id="goBtn">Reveal My Reading</button>
+    <div class="err" id="errMsg">Please enter your date of birth.</div>
+  </div>
+
+  <!-- ============ RESULT ============ -->
+  <div id="result"></div>
+
+  <p class="disclaimer">For entertainment purposes. Saju month &amp; year boundaries use approximate solar-term dates,
+  and hours are interpreted in local standard time.</p>
+</div>
+
+<script>
+/* ================================================================
+   DATA — Heavenly Stems, Earthly Branches, Zodiac, Combinations
+   ================================================================ */
+const STEMS = [
+  { han:'甲', name:'Jia',  el:'Wood',  yin:false, en:'Yang Wood' },
+  { han:'乙', name:'Yi',   el:'Wood',  yin:true,  en:'Yin Wood' },
+  { han:'丙', name:'Bing', el:'Fire',  yin:false, en:'Yang Fire' },
+  { han:'丁', name:'Ding', el:'Fire',  yin:true,  en:'Yin Fire' },
+  { han:'戊', name:'Wu',   el:'Earth', yin:false, en:'Yang Earth' },
+  { han:'己', name:'Ji',   el:'Earth', yin:true,  en:'Yin Earth' },
+  { han:'庚', name:'Geng', el:'Metal', yin:false, en:'Yang Metal' },
+  { han:'辛', name:'Xin',  el:'Metal', yin:true,  en:'Yin Metal' },
+  { han:'壬', name:'Ren',  el:'Water', yin:false, en:'Yang Water' },
+  { han:'癸', name:'Gui',  el:'Water', yin:true,  en:'Yin Water' },
+];
+const BRANCHES = [
+  { han:'子', en:'Rat',     el:'Water' },
+  { han:'丑', en:'Ox',      el:'Earth' },
+  { han:'寅', en:'Tiger',   el:'Wood'  },
+  { han:'卯', en:'Rabbit',  el:'Wood'  },
+  { han:'辰', en:'Dragon',  el:'Earth' },
+  { han:'巳', en:'Snake',   el:'Fire'  },
+  { han:'午', en:'Horse',   el:'Fire'  },
+  { han:'未', en:'Goat',    el:'Earth' },
+  { han:'申', en:'Monkey',  el:'Metal' },
+  { han:'酉', en:'Rooster', el:'Metal' },
+  { han:'戌', en:'Dog',     el:'Earth' },
+  { han:'亥', en:'Pig',     el:'Water' },
+];
+
+const DAY_MASTERS = {
+  '甲': { img:'the Towering Tree', traits:['Principled','Ambitious','Protective'],
+    text:`Like a great tree that grows straight toward the sun, you carry an innate sense of direction and integrity. You prefer to lead rather than follow, and people naturally lean on you for shelter. Your challenge is flexibility — a tall tree that refuses to bend can break in a storm, so learn when to sway.` },
+  '乙': { img:'the Climbing Vine', traits:['Adaptable','Diplomatic','Persistent'],
+    text:`Like a vine or wildflower, you thrive through grace rather than force. You read rooms instantly, adapt to any environment, and quietly reach heights others achieve only through struggle. Beneath the softness is remarkable persistence — you always find a way around obstacles rather than through them.` },
+  '丙': { img:'the Blazing Sun', traits:['Radiant','Generous','Expressive'],
+    text:`You are the sun of any gathering — warm, open, and impossible to ignore. You give light without asking for repayment and inspire others simply by being fully yourself. Watch your tendency to burn too bright: not everyone can stand at noon, and even the sun must set to rise again.` },
+  '丁': { img:'the Candle Flame', traits:['Insightful','Devoted','Refined'],
+    text:`You are candlelight in the dark — subtle, precise, and deeply illuminating. Where Yang Fire floods a room, you focus warmth on the few things and people that matter most. You perceive what others miss, and your quiet devotion burns far longer than any bonfire.` },
+  '戊': { img:'the Great Mountain', traits:['Steadfast','Trustworthy','Grounded'],
+    text:`Like a mountain, you are the fixed point others navigate by. You keep promises, absorb pressure without complaint, and value substance over show. Change comes slowly to you — that is your strength and your lesson. Sometimes the mountain must let the river reshape its valley.` },
+  '己': { img:'the Fertile Field', traits:['Nurturing','Resourceful','Patient'],
+    text:`You are garden soil — modest in appearance, extraordinary in what you make possible. You cultivate people, projects, and ideas, turning raw seeds into harvests. Your quiet productivity is easily underestimated; remember to save some of that nourishment for yourself.` },
+  '庚': { img:'the Tempered Blade', traits:['Decisive','Just','Resilient'],
+    text:`Like raw ore forged into a sword, you were made for challenge. You cut through ambiguity, defend what is fair, and grow stronger with every trial by fire. Your directness is a gift wrapped in sharp edges — wield it with care around softer hearts.` },
+  '辛': { img:'the Polished Jewel', traits:['Elegant','Precise','Discerning'],
+    text:`You are refined metal — a jewel, a needle, a fine instrument. You value quality over quantity in everything: words, friendships, work. Your standards are exacting and your taste impeccable, but perfectionism can scratch even a diamond. Let a few flaws catch the light.` },
+  '壬': { img:'the Open Ocean', traits:['Visionary','Free-spirited','Bold'],
+    text:`You are the ocean — vast, restless, and impossible to contain. Big ideas and far horizons call to you, and you carry others along on your current. Your depths hold more than you show. Beware of drifting: even the sea obeys the moon, and you too need a rhythm to return to.` },
+  '癸': { img:'the Gentle Rain', traits:['Intuitive','Perceptive','Subtle'],
+    text:`You are rain and morning mist — soft, quiet, and quietly transformative. You seep into places force cannot reach, sensing emotions and truths before they are spoken. People underestimate you until they realize the whole landscape changed because of you.` },
+};
+
+const ZODIACS = [
+  { key:'capricorn',  sym:'♑', name:'Capricorn',  el:'Earth', dates:'Dec 22 – Jan 19', traits:['Disciplined','Strategic','Enduring'],
+    text:`Capricorn climbs. Ruled by Saturn, you treat life as a long ascent and rarely waste a step. Others see ambition; underneath is a dry wit and a fierce loyalty to the few who earn your trust.` },
+  { key:'aquarius',   sym:'♒', name:'Aquarius',   el:'Air',   dates:'Jan 20 – Feb 18', traits:['Original','Humanitarian','Independent'],
+    text:`Aquarius lives ten years in the future. You question every default setting of society, collect unusual friends, and defend your independence like a homeland. Your detachment hides a genuine wish to make the world fairer.` },
+  { key:'pisces',     sym:'♓', name:'Pisces',     el:'Water', dates:'Feb 19 – Mar 20', traits:['Empathic','Imaginative','Fluid'],
+    text:`Pisces feels everything — often other people's everything. Ruled by Neptune, you swim between dream and reality, turning emotion into art and intuition into uncanny timing. Boundaries are your lifelong homework.` },
+  { key:'aries',      sym:'♈', name:'Aries',      el:'Fire',  dates:'Mar 21 – Apr 19', traits:['Courageous','Direct','Pioneering'],
+    text:`Aries goes first. Ruled by Mars, you'd rather make a bold mistake than a cautious nothing. Your anger burns out as fast as it flares, and your enthusiasm can drag an entire room into motion.` },
+  { key:'taurus',     sym:'♉', name:'Taurus',     el:'Earth', dates:'Apr 20 – May 20', traits:['Steadfast','Sensual','Patient'],
+    text:`Taurus builds slowly and keeps what it builds. Ruled by Venus, you have a genius for comfort — good food, good textures, good company — and a stubbornness that is really just loyalty to your own judgment.` },
+  { key:'gemini',     sym:'♊', name:'Gemini',     el:'Air',   dates:'May 21 – Jun 21', traits:['Curious','Witty','Versatile'],
+    text:`Gemini is a conversation with the universe. Ruled by Mercury, you collect ideas, languages, and people, connecting dots nobody else noticed were on the same page. Boredom is your only real enemy.` },
+  { key:'cancer',     sym:'♋', name:'Cancer',     el:'Water', dates:'Jun 22 – Jul 22', traits:['Protective','Intuitive','Devoted'],
+    text:`Cancer remembers. Ruled by the Moon, you feel in tides — fiercely protective of your people, deeply tuned to atmosphere, and armored in a shell that fools everyone but you. Home is not a place; it's your gravity.` },
+  { key:'leo',        sym:'♌', name:'Leo',        el:'Fire',  dates:'Jul 23 – Aug 22', traits:['Radiant','Generous','Proud'],
+    text:`Leo warms the room and knows it. Ruled by the Sun, you lead with heart, celebrate loudly, and give more generously than anyone realizes. Your pride is real — but so is the loyalty behind it.` },
+  { key:'virgo',      sym:'♍', name:'Virgo',      el:'Earth', dates:'Aug 23 – Sep 22', traits:['Analytical','Devoted','Precise'],
+    text:`Virgo perfects. Ruled by Mercury, you see the flaw, the fix, and the five steps to get there — usually before breakfast. Your care shows up as usefulness: quietly making everything and everyone around you work better.` },
+  { key:'libra',      sym:'♎', name:'Libra',      el:'Air',   dates:'Sep 23 – Oct 23', traits:['Harmonizing','Fair','Charming'],
+    text:`Libra weighs. Ruled by Venus, you are the diplomat of the zodiac — allergic to ugliness and injustice alike. You see every side of every question, which makes you wise, and makes deciding lunch a small crisis.` },
+  { key:'scorpio',    sym:'♏', name:'Scorpio',    el:'Water', dates:'Oct 24 – Nov 21', traits:['Intense','Perceptive','Transformative'],
+    text:`Scorpio goes deep or not at all. Ruled by Pluto, you read hidden motives like subtitles and guard your own depths with elegant misdirection. What you love, you love totally — and you never do anything halfway.` },
+  { key:'sagittarius',sym:'♐', name:'Sagittarius',el:'Fire',  dates:'Nov 22 – Dec 21', traits:['Adventurous','Optimistic','Philosophical'],
+    text:`Sagittarius aims beyond the horizon. Ruled by Jupiter, you need movement, meaning, and the occasional reckless leap of faith. Your honesty can knock people over — but so can your laughter.` },
+];
+
+const ANIMAL_LINES = {
+  Rat:'quick-witted and resourceful', Ox:'dependable and quietly powerful',
+  Tiger:'brave and charismatic', Rabbit:'gentle and diplomatically brilliant',
+  Dragon:'magnetic and larger than life', Snake:'wise and enigmatic',
+  Horse:'free-spirited and energetic', Goat:'artistic and kind-hearted',
+  Monkey:'clever and endlessly inventive', Rooster:'sharp-eyed and confident',
+  Dog:'loyal and justice-driven', Pig:'sincere and generous of heart',
+};
+
+/* Combination matrix: zodiac element (Fire/Earth/Air/Water) × day master element */
+const COMBOS = {
+  'Fire|Wood':  { title:'The Kindled Visionary',
+    text:`Wood feeds fire: your Saju nature is the fuel and your zodiac is the flame. Ideas that start as quiet convictions in you tend to ignite into bold public action. You grow fastest when you commit to one blaze at a time instead of scattering sparks — when aligned, you don't just chase dreams, you set them alight for everyone around you.` },
+  'Fire|Fire':  { title:'The Double Flame',
+    text:`Fire meets fire: East and West agree that you burn. Passion, charisma, and momentum come naturally — the world rarely wonders how you feel. Your work is rhythm, not restraint: build deliberate rest into your life the way a hearth needs tending, and your warmth becomes a lifelong gift instead of a series of brilliant flare-ups.` },
+  'Fire|Earth': { title:'The Warm Foundation',
+    text:`Fire creates earth in the ancient cycle, and in you the bold zodiac flame rests on a deeply grounded Saju core. You look adventurous but decide carefully; you inspire others and then actually follow through. This is a rare combination of spark and stamina — the person who both starts the fire and builds the fireplace.` },
+  'Fire|Metal': { title:'The Forged Star',
+    text:`Fire tempers metal: your fiery zodiac constantly tests your precise, principled Saju core — and makes it stronger. You hold high standards and the courage to defend them loudly. Friction is part of your design; every challenge you pass through leaves you sharper, brighter, and harder to bend.` },
+  'Fire|Water': { title:'The Storm of Passion',
+    text:`Fire above, water below — you contain a genuine polarity. Outwardly bold and expressive, inwardly deep and intuitive, you can seem like two people who happen to share one destiny. When balanced, this is steam-engine power: emotion converted directly into momentum. Your art is honoring both natures instead of letting one extinguish the other.` },
+  'Earth|Wood': { title:'The Deep-Rooted Oak',
+    text:`Wood takes root in earth: your steady zodiac ground gives your growing Saju nature somewhere to anchor. You combine patience with quiet ambition — growth that looks slow until everyone realizes you've become impossible to move. You build things (careers, families, reputations) that outlast trends.` },
+  'Earth|Fire': { title:'The Hearthkeeper',
+    text:`Your inner Saju fire warms a practical, grounded zodiac shell. People come to you for both comfort and courage — soup and a pep talk. You dislike drama but radiate quiet intensity, and your steady warmth builds the kind of loyalty that louder flames never earn.` },
+  'Earth|Earth':{ title:'The Unshakable One',
+    text:`Earth doubled: both traditions crown you the reliable center of any world you inhabit. Promises kept, standards held, storms weathered — that's your signature. Your growth edge is spontaneity: the mountain doesn't have to move, but it can at least enjoy the weather changing.` },
+  'Earth|Metal':{ title:'The Master Craftsman',
+    text:`Earth bears metal: your grounded zodiac nature is the mine, and your refined Saju core is the ore within it. You turn patience into precision — the person whose work needs no excuses. Perfection is your instinct; remember that shipped and excellent beats flawless and imaginary.` },
+  'Earth|Water':{ title:'The Hidden Spring',
+    text:`Beneath your composed, practical zodiac surface runs deep Saju water — intuition, feeling, and quiet wisdom. You appear steady while sensing everything, which makes you a natural confidant and an underestimated strategist. Let the spring surface sometimes; your depths are worth showing.` },
+  'Air|Wood':   { title:'The Wind-Blown Seed',
+    text:`Air carries wood's seeds far from home: your curious, social zodiac nature spreads your growing Saju ambitions into places you'd never reach alone. You flourish through networks, conversations, and lucky introductions. Plant deliberately — your ideas take root wherever you let them land.` },
+  'Air|Fire':   { title:'The Wildfire Mind',
+    text:`Air feeds fire: your quick, connective zodiac mind is pure oxygen for your passionate Saju core. Ideas don't just occur to you — they combust. You're the person who talks a room into believing, then acts before doubt arrives. Aim the wind, and there is very little you can't ignite.` },
+  'Air|Earth':  { title:'The Practical Dreamer',
+    text:`Air above, earth below: you float through ideas and possibilities but land every decision on solid ground. This makes you rare — imaginative enough to see the future, practical enough to invoice it. Your best work happens when you translate between dreamers and builders, being fluent in both.` },
+  'Air|Metal':  { title:'The Silver Tongue',
+    text:`Air rings against metal like a struck bell: your social, articulate zodiac nature gives voice to your precise Saju core. Words are your instrument — persuading, refining, cutting through noise. You can win almost any argument; wisdom is knowing which ones deserve winning.` },
+  'Air|Water':  { title:'The Mist Walker',
+    text:`Air stirs water into mist: your intellectual zodiac and intuitive Saju blend thought and feeling until they're indistinguishable. You understand people with an accuracy that borders on unsettling. Your gift is atmosphere — you change the emotional weather of a room just by entering it.` },
+  'Water|Wood': { title:'The Nourished Grove',
+    text:`Water feeds wood: your deep, feeling zodiac nature continuously nourishes your growing Saju core. Emotion becomes fuel for creation — you turn what you feel into what you build. Guard your source: you grow best beside people who refill your waters rather than drain them.` },
+  'Water|Fire': { title:'The Sacred Steam',
+    text:`Water outside, fire within — an alchemical pairing. Your gentle, intuitive surface conceals a Saju core of real ambition and heat. People are perpetually surprised by your intensity; you feel deeply AND act boldly. The tension between the two is not a flaw. It's your engine.` },
+  'Water|Earth':{ title:'The River\'s Keeper',
+    text:`Water shapes earth over time, and in you a deeply feeling zodiac nature flows around a steady Saju core. You change people slowly and permanently — the friend whose influence is only visible in hindsight. Patience plus empathy is your quiet superpower.` },
+  'Water|Metal':{ title:'The Moonlit Blade',
+    text:`Metal enriches water in the ancient cycle: your intuitive zodiac depths carry a Saju core of clarity and precision. You feel your way to conclusions others need spreadsheets for — then defend them with steel. Elegant, perceptive, and far tougher than you look.` },
+  'Water|Water':{ title:'The Bottomless Well',
+    text:`Water doubled: both skies agree you are depth itself. Intuition, memory, and emotional intelligence run through everything you do — you don't read rooms, you absorb them. Your task is buoyancy: build shores and rituals that keep all that depth from becoming undertow.` },
+};
+
+const ELEMENT_META = {
+  Wood:  { color:'var(--wood)',  emoji:'🌿', colors:'Green & Teal',       numbers:'3, 8' },
+  Fire:  { color:'var(--fire)',  emoji:'🔥', colors:'Red & Coral',        numbers:'2, 7' },
+  Earth: { color:'var(--earth)', emoji:'⛰️', colors:'Amber & Terracotta', numbers:'5, 10' },
+  Metal: { color:'var(--metal)', emoji:'⚔️', colors:'White & Gold',       numbers:'4, 9' },
+  Water: { color:'var(--water)', emoji:'🌊', colors:'Navy & Black',       numbers:'1, 6' },
+};
+
+const ELEMENT_ADVICE = {
+  Wood:'growth, learning, and new beginnings — say yes to things that stretch you',
+  Fire:'visibility, passion, and self-expression — let yourself be seen',
+  Earth:'stability, routines, and trust — build foundations before towers',
+  Metal:'clarity, structure, and finishing — cut what no longer serves you',
+  Water:'rest, intuition, and wisdom — listen before you act',
+};
+
+/* ================================================================
+   SAJU ENGINE
+   ================================================================ */
+function julianDayNumber(y, m, d) {
+  const a = Math.floor((14 - m) / 12);
+  const yy = y + 4800 - a;
+  const mm = m + 12 * a - 3;
+  return d + Math.floor((153 * mm + 2) / 5) + 365 * yy +
+         Math.floor(yy / 4) - Math.floor(yy / 100) + Math.floor(yy / 400) - 32045;
+}
+
+/* Solar month index 0..11 = 寅..丑, using approximate solar-term dates */
+function solarMonthIndex(m, d) {
+  if (m === 1) return d >= 6 ? 11 : 10;
+  const bounds = [[2,4],[3,6],[4,5],[5,6],[6,6],[7,7],[8,8],[9,8],[10,8],[11,7],[12,7]];
+  let idx = 11; // Feb 1–3 → still 丑 month
+  for (let i = 0; i < bounds.length; i++) {
+    const [bm, bd] = bounds[i];
+    if (m > bm || (m === bm && d >= bd)) idx = i;
+  }
+  return idx;
+}
+
+function computeSaju(y, m, d, hour) {
+  // Year pillar (solar year starts at Li Chun ≈ Feb 4)
+  let solarYear = y;
+  if (m === 1 || (m === 2 && d < 4)) solarYear = y - 1;
+  const yStem = ((solarYear - 4) % 10 + 10) % 10;
+  const yBranch = ((solarYear - 4) % 12 + 12) % 12;
+
+  // Month pillar
+  const mIdx = solarMonthIndex(m, d);
+  const mBranch = (mIdx + 2) % 12;
+  const mStem = ((yStem % 5) * 2 + 2 + mIdx) % 10;
+
+  // Day pillar (sexagenary, 甲子 = 0)
+  const jdn = julianDayNumber(y, m, d);
+  const dayIdx = ((jdn + 49) % 60 + 60) % 60;
+  const dStem = dayIdx % 10;
+  const dBranch = dayIdx % 12;
+
+  // Hour pillar
+  let hStem = null, hBranch = null;
+  if (hour !== null) {
+    hBranch = Math.floor(((hour + 1) % 24) / 2);
+    hStem = ((dStem % 5) * 2 + hBranch) % 10;
+  }
+
+  return { yStem, yBranch, mStem, mBranch, dStem, dBranch, hStem, hBranch };
+}
+
+function westernZodiac(m, d) {
+  const cutoffs = [
+    [1,20],[2,19],[3,21],[4,20],[5,21],[6,22],
+    [7,23],[8,23],[9,23],[10,24],[11,22],[12,22],
+  ];
+  const [, cd] = cutoffs[m - 1];
+  const idx = (d >= cd) ? m : m - 1;
+  return ZODIACS[idx % 12];
+}
+
+/* ================================================================
+   RENDER
+   ================================================================ */
+const $ = (id) => document.getElementById(id);
+
+function pillarCard(title, stemIdx, branchIdx, me) {
+  if (stemIdx === null) {
+    return `<div class="pillar unknown">
+      <div class="p-title">${title}</div>
+      <div class="hanja">?<br>?</div>
+      <div class="p-en">Unknown<br>(no birth time)</div>
+    </div>`;
+  }
+  const s = STEMS[stemIdx], b = BRANCHES[branchIdx];
+  return `<div class="pillar${me ? ' me' : ''}">
+    <div class="p-title">${title}</div>
+    <div class="hanja">${s.han}<br>${b.han}</div>
+    <div class="p-en">${s.en}<br>over ${b.en}</div>
+  </div>`;
+}
+
+function countElements(saju) {
+  const counts = { Wood:0, Fire:0, Earth:0, Metal:0, Water:0 };
+  const add = (el) => counts[el]++;
+  add(STEMS[saju.yStem].el);  add(BRANCHES[saju.yBranch].el);
+  add(STEMS[saju.mStem].el);  add(BRANCHES[saju.mBranch].el);
+  add(STEMS[saju.dStem].el);  add(BRANCHES[saju.dBranch].el);
+  if (saju.hStem !== null) { add(STEMS[saju.hStem].el); add(BRANCHES[saju.hBranch].el); }
+  return counts;
+}
+
+function render() {
+  const dateVal = $('bdate').value;
+  if (!dateVal) { $('errMsg').style.display = 'block'; return; }
+  $('errMsg').style.display = 'none';
+
+  const [y, m, d] = dateVal.split('-').map(Number);
+  const noTime = $('noTime').checked;
+  let hour = null;
+  if (!noTime && $('btime').value) hour = Number($('btime').value.split(':')[0]);
+
+  const name = $('name').value.trim();
+  const saju = computeSaju(y, m, d, hour);
+  const zodiac = westernZodiac(m, d);
+  const dayMaster = STEMS[saju.dStem];
+  const dm = DAY_MASTERS[dayMaster.han];
+  const animal = BRANCHES[saju.yBranch].en;
+  const combo = COMBOS[`${zodiac.el}|${dayMaster.el}`];
+  const counts = countElements(saju);
+  const em = ELEMENT_META[dayMaster.el];
+
+  const totalChars = saju.hStem !== null ? 8 : 6;
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const dominant = sorted[0];
+  const missing = sorted.filter(([, c]) => c === 0).map(([e]) => e);
+
+  const elPills = Object.entries(counts).map(([el, c]) =>
+    `<div class="el-pill"><span class="dot" style="background:${ELEMENT_META[el].color};color:${ELEMENT_META[el].color}"></span>${el} <span class="cnt">× ${c}</span></div>`
+  ).join('');
+
+  let balanceNote = `Your chart is dominated by <b>${dominant[0]}</b> (${dominant[1]} of ${totalChars} characters), which colors your life with themes of ${ELEMENT_ADVICE[dominant[0]]}.`;
+  if (missing.length) {
+    balanceNote += ` You have no <b>${missing.join('</b> or <b>')}</b> in the visible chart — inviting more ${missing.map(e => ELEMENT_ADVICE[e].split(' — ')[0]).join('; ')} into your life can restore balance.`;
+  } else {
+    balanceNote += ` Remarkably, all five elements appear in your chart — a naturally well-rounded constitution.`;
+  }
+
+  const who = name ? escapeHtml(name) : 'You';
+
+  $('result').innerHTML = `
+    <div class="hero-res fade-in">
+      <div class="glyphs">${zodiac.sym} ✕ ${dayMaster.han}</div>
+      <div class="eyebrow">Your Cosmic Archetype</div>
+      <h2>${combo.title}</h2>
+    </div>
+
+    <div class="sheet fade-in" style="animation-delay:.06s">
+      <div class="sheet-top">
+        <div class="thumb">${zodiac.sym}<br>${dayMaster.han}</div>
+        <div>
+          <div class="sheet-title">${who === 'You' ? "Today's Reading" : who + "'s Reading"}</div>
+          <div class="sheet-sub">${zodiac.el} (West) ✕ ${dayMaster.el} (East)</div>
+        </div>
+        <div class="mode-badge">🔮</div>
+      </div>
+      <div class="stats">
+        <div><label>Sun Sign</label><b>${zodiac.name}</b></div>
+        <div><label>Day Master</label><b>${dayMaster.en}</b></div>
+        <div><label>Year of the</label><b>${animal}</b></div>
+      </div>
+    </div>
+
+    <div class="panel section fade-in" style="animation-delay:.12s">
+      <h3>Your Four Pillars <span class="han">사주팔자</span></h3>
+      <div class="tagline">The Eastern reading — your destiny chart</div>
+      <div class="pillars">
+        ${pillarCard('Hour · You', saju.hStem, saju.hBranch)}
+        ${pillarCard('Day · Self', saju.dStem, saju.dBranch, true)}
+        ${pillarCard('Month · Career', saju.mStem, saju.mBranch)}
+        ${pillarCard('Year · Roots', saju.yStem, saju.yBranch)}
+      </div>
+      <div class="el-row">${elPills}</div>
+      <p class="el-note">${balanceNote}</p>
+    </div>
+
+    <div class="panel section fade-in" style="animation-delay:.18s">
+      <h3>Day Master: ${dayMaster.en} <span class="han">${dayMaster.han} ${dayMaster.name}</span></h3>
+      <div class="tagline">The core of your Saju — who you are at the center</div>
+      <div class="chips">${dm.traits.map(t => `<span class="chip">${t}</span>`).join('')}</div>
+      <p class="body">You are <b>${dm.img}</b>. ${dm.text}</p>
+    </div>
+
+    <div class="panel section fade-in" style="animation-delay:.24s">
+      <h3>Sun Sign: ${zodiac.name} <span class="han">${zodiac.sym}</span></h3>
+      <div class="tagline">The Western reading · ${zodiac.dates} · ${zodiac.el} sign</div>
+      <div class="chips">${zodiac.traits.map(t => `<span class="chip">${t}</span>`).join('')}</div>
+      <p class="body">${zodiac.text}</p>
+      <p class="body">And from the Eastern sky: as a <b>${animal}</b>-year native, you are ${ANIMAL_LINES[animal]}.</p>
+    </div>
+
+    <div class="panel section fade-in" style="animation-delay:.3s">
+      <h3>The Synthesis: ${combo.title}</h3>
+      <div class="tagline">${zodiac.el} (West) meets ${dayMaster.el} (East)</div>
+      <p class="body">${combo.text}</p>
+      <div class="lucky">
+        <div class="lucky-item"><div class="l-label">Power Element</div><div class="l-val" style="color:${em.color}">${em.emoji} ${dayMaster.el}</div></div>
+        <div class="lucky-item"><div class="l-label">Lucky Colors</div><div class="l-val">${em.colors}</div></div>
+        <div class="lucky-item"><div class="l-label">Lucky Numbers</div><div class="l-val">${em.numbers}</div></div>
+      </div>
+    </div>
+
+    <button class="again fade-in" style="animation-delay:.36s" onclick="resetForm()">↻ &nbsp;Read Another Chart</button>
+  `;
+
+  $('formCard').style.display = 'none';
+  $('result').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetForm() {
+  $('result').style.display = 'none';
+  $('formCard').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+/* ================================================================
+   INIT
+   ================================================================ */
+$('goBtn').addEventListener('click', render);
+$('noTime').addEventListener('change', e => { $('btime').disabled = e.target.checked; });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && $('formCard').style.display !== 'none') render();
+});
+</script>
+</body>
+</html>
