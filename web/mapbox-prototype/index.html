@@ -22,6 +22,36 @@
     <button class="dots" id="open-chart" aria-label="open saju × zodiac chart">•••</button>
   </header>
 
+  <!-- 온보딩: 생년월일·시간·출생 도시 입력 -->
+  <div id="onboard">
+    <div class="ob-wrap">
+      <div class="ob-hero">
+        <div class="ob-glyph">✦</div>
+        <h1>Lucky Path</h1>
+        <p class="sub">Tell us when and where you were born.<br>
+        We'll read your chart and light up today's lucky route.</p>
+      </div>
+      <div class="ob-panel">
+        <div class="ob-field">
+          <label for="ob-date">Date of birth</label>
+          <input type="date" id="ob-date" min="1900-01-01" max="2026-12-31">
+        </div>
+        <div class="ob-field">
+          <label for="ob-time">Time of birth</label>
+          <input type="time" id="ob-time" value="12:00">
+          <label class="ob-check"><input type="checkbox" id="ob-notime">
+            I don't know my birth time (the Hour Pillar will be skipped)</label>
+        </div>
+        <div class="ob-field">
+          <label for="ob-city">Birth city</label>
+          <input type="text" id="ob-city" placeholder="e.g. Seoul" maxlength="40">
+        </div>
+        <button class="ob-btn" id="ob-start">Reveal My Path</button>
+        <div class="ob-err" id="ob-err">Please enter your date of birth.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Saju × Zodiac 상세 분석 오버레이 -->
   <div id="chart-overlay">
     <div class="cv-wrap">
@@ -87,6 +117,7 @@
       <p class="muted small">
         Data: <code>engine/daily_reading.json</code>, <code>outputs/*.geojson</code> ·
         Run <code>python -m http.server</code> from the repo root.
+        <button class="text-link" id="edit-birth">Edit birth info</button>
       </p>
     </div>
   </section>

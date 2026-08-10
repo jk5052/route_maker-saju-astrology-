@@ -282,6 +282,48 @@ function initMapbox(routeData) {
   });
 }
 
+/* ── 온보딩: 생년월일·시간·출생 도시 (localStorage 프로필) ────────── */
+const PROFILE_KEY = "luckypath_profile";
+
+function loadProfile() {
+  try { return JSON.parse(localStorage.getItem(PROFILE_KEY)); }
+  catch { return null; }
+}
+
+function wireOnboard(reading, onSave) {
+  const saved = loadProfile();
+  const initial = saved ?? { birth: reading.birth, birthTime: reading.birth_time, city: "" };
+
+  $("ob-date").value = initial.birth ?? "";
+  if (initial.birthTime) $("ob-time").value = initial.birthTime;
+  $("ob-notime").checked = !!saved && !saved.birthTime;
+  $("ob-time").disabled = $("ob-notime").checked;
+  $("ob-city").value = initial.city ?? "";
+
+  $("ob-notime").addEventListener("change", (e) => {
+    $("ob-time").disabled = e.target.checked;
+  });
+  $("ob-start").addEventListener("click", () => {
+    const birth = $("ob-date").value;
+    if (!birth) { $("ob-err").style.display = "block"; return; }
+    $("ob-err").style.display = "none";
+    const profile = {
+      birth,
+      birthTime: $("ob-notime").checked ? null : ($("ob-time").value || null),
+      city: $("ob-city").value.trim(),
+    };
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    onSave(profile);
+    $("onboard").classList.add("done");
+  });
+  $("edit-birth").addEventListener("click", () => {
+    $("onboard").classList.remove("done");
+  });
+
+  if (saved) $("onboard").classList.add("done"); // 이미 입력한 방문자는 바로 지도로
+  return initial;
+}
+
 /* ── 초기화 ──────────────────────────────────────────────────────── */
 function wireSheet() {
   const sheet = $("sheet");
@@ -306,8 +348,12 @@ async function init() {
 
   renderSheet(reading, matrix, routeData);
 
+  // 온보딩 프로필 — 원국 분석은 입력값으로 즉시 계산, 일일 리딩은 엔진 산출물 사용
+  let profile = wireOnboard(reading, (p) => { profile = p; });
+
   // 사주×별자리 상세 분석 오버레이 (••• 버튼 / 시트 링크)
-  const openChart = () => window.ChartView.show(reading.birth, reading.birth_time);
+  const openChart = () =>
+    window.ChartView.show(profile.birth, profile.birthTime, profile.city);
   $("open-chart").addEventListener("click", openChart);
   $("open-chart-2").addEventListener("click", openChart);
   $("chart-close").addEventListener("click", () => window.ChartView.hide());

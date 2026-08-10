@@ -293,12 +293,12 @@
   const overlay = () => document.getElementById("chart-overlay");
 
   window.ChartView = {
-    show(birthISO, birthTime) {
+    show(birthISO, birthTime, city) {
       const [y, m, d] = birthISO.split("-").map(Number);
       const hour = birthTime ? Number(birthTime.split(":")[0]) : null;
       document.getElementById("chart-content").innerHTML = buildHTML(y, m, d, hour);
       document.getElementById("cv-birth").textContent =
-        birthISO + (birthTime ? ` · ${birthTime}` : "");
+        birthISO + (birthTime ? ` · ${birthTime}` : "") + (city ? ` · ${city}` : "");
       overlay().classList.add("open");
       overlay().scrollTop = 0;
     },
