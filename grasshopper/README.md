@@ -1,5 +1,8 @@
 # lucky_route.gh
 
+기존 Williamsburg 수업 자료를 Python 반복 실험과 연결하는 방향은
+[데이터 교환 설계](data_exchange.md)를 참고한다. 아래 구성은 현재 합성 샘플을 실행하는 예제다.
+
 `.gh` 파일은 바이너리라서 Rhino/Grasshopper에서 직접 만들어 이 폴더에 저장해야 합니다.
 핵심 로직은 전부 [lucky_route_ghpython.py](lucky_route_ghpython.py)에 있으므로,
 정의(definition)는 아래처럼 얇게 구성하면 됩니다.

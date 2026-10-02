@@ -1,0 +1,309 @@
+{
+  "inputs": {
+    "date": "2026-07-21",
+    "birth": "1994-02-02",
+    "birth_time": "08:30",
+    "origin": [
+      -74.002,
+      40.728
+    ],
+    "destination": [
+      -73.9948,
+      40.7352
+    ],
+    "segments_path": "/Users/jayce/route_maker/data/processed/street_segments.geojson",
+    "segment_count": 84,
+    "sha256": {
+      "/Users/jayce/route_maker/engine/daily_reading.json": "554100412f7c145be1865d39d1f3069fb05ed8cfa23636b5d2c1c4531cb03988",
+      "/Users/jayce/route_maker/data/processed/street_segments.geojson": "b2b30f08bbcdc1085ca0aa0ce8c1ba6e727f3be7934d5bb8754fa247b693989e",
+      "/Users/jayce/route_maker/config/quality_street_matrix.csv": "35edbd9bbd80eb9c933f7f8fd7743d1eb4316158fe48c1c2132836c4c82c35d6",
+      "/Users/jayce/route_maker/config/saju_rules.csv": "ae7f789221f6de3c21eb0563f6509c2954d2ace82b4f319928ed4e113b894423",
+      "/Users/jayce/route_maker/config/astrology_rules.csv": "38b6e1e393387d92863b2ef8385343f0247275925adf9d040774aa5d8828509e"
+    }
+  },
+  "scenarios": {
+    "saju": {
+      "quality": {
+        "activation": 0.33,
+        "receptivity": 0.451,
+        "clarity": 0.33,
+        "expansion": 0.0,
+        "grounding": 0.0,
+        "flow": 0.259
+      },
+      "weights": {
+        "green": 0.1126,
+        "water": 0.1447,
+        "sunlight": 0.1321,
+        "open_sky": 0.1397,
+        "quiet": 0.1315,
+        "vibrant": 0.1241,
+        "rest": 0.1047,
+        "culture": 0.1106
+      },
+      "length_m": 1406.3999999999999,
+      "segment_ids": [
+        0,
+        13,
+        27,
+        28,
+        41,
+        54,
+        68,
+        70,
+        72,
+        74,
+        75,
+        83
+      ],
+      "route_file": "saju_route.geojson",
+      "cost": 1475.03977372
+    },
+    "astrology": {
+      "quality": {
+        "activation": 0.607,
+        "receptivity": 0.738,
+        "clarity": 0.438,
+        "expansion": 0.71,
+        "grounding": 0.166,
+        "flow": 0.247
+      },
+      "weights": {
+        "green": 0.133,
+        "water": 0.1243,
+        "sunlight": 0.1333,
+        "open_sky": 0.1503,
+        "quiet": 0.1106,
+        "vibrant": 0.1275,
+        "rest": 0.0997,
+        "culture": 0.1213
+      },
+      "length_m": 1406.3999999999999,
+      "segment_ids": [
+        0,
+        13,
+        27,
+        28,
+        41,
+        54,
+        68,
+        70,
+        72,
+        74,
+        75,
+        83
+      ],
+      "route_file": "astrology_route.geojson",
+      "cost": 1469.23750332
+    },
+    "combined": {
+      "quality": {
+        "activation": 0.469,
+        "receptivity": 0.595,
+        "clarity": 0.384,
+        "expansion": 0.355,
+        "grounding": 0.083,
+        "flow": 0.253
+      },
+      "weights": {
+        "green": 0.1265,
+        "water": 0.1308,
+        "sunlight": 0.1329,
+        "open_sky": 0.1469,
+        "quiet": 0.1172,
+        "vibrant": 0.1264,
+        "rest": 0.1013,
+        "culture": 0.1179
+      },
+      "length_m": 1406.3999999999999,
+      "segment_ids": [
+        0,
+        13,
+        27,
+        28,
+        41,
+        54,
+        68,
+        70,
+        72,
+        74,
+        75,
+        83
+      ],
+      "route_file": "combined_route.geojson",
+      "cost": 1471.16147888
+    }
+  },
+  "overlaps": [
+    {
+      "left": "saju",
+      "right": "astrology",
+      "shared_segment_count": 12,
+      "shared_length_m": 1406.3999999999999,
+      "union_length_m": 1406.3999999999999,
+      "length_jaccard": 1.0,
+      "fraction_of_left": 1.0,
+      "fraction_of_right": 1.0,
+      "weight_l1_distance": 0.09260000000000002
+    },
+    {
+      "left": "saju",
+      "right": "combined",
+      "shared_segment_count": 12,
+      "shared_length_m": 1406.3999999999999,
+      "union_length_m": 1406.3999999999999,
+      "length_jaccard": 1.0,
+      "fraction_of_left": 1.0,
+      "fraction_of_right": 1.0,
+      "weight_l1_distance": 0.06310000000000002
+    },
+    {
+      "left": "astrology",
+      "right": "combined",
+      "shared_segment_count": 12,
+      "shared_length_m": 1406.3999999999999,
+      "union_length_m": 1406.3999999999999,
+      "length_jaccard": 1.0,
+      "fraction_of_left": 1.0,
+      "fraction_of_right": 1.0,
+      "weight_l1_distance": 0.0295
+    }
+  ],
+  "attribution": {
+    "unscaled_saju_mass": 5.0178,
+    "unscaled_astrology_mass": 10.771149999999999,
+    "ideal_denominator": 7.894475,
+    "production_denominator": 7.89805,
+    "ideal_saju_share": 0.31780454051726054,
+    "ideal_astrology_share": 0.6821954594827394,
+    "production_saju_share": 0.3176606883977691,
+    "production_astrology_share": 0.6818866682282335,
+    "intermediate_rounding_residual_total": 0.0004526433739973644,
+    "final_rounding_residual_total": -9.999999999998899e-05,
+    "attributes": {
+      "green": {
+        "ideal_saju": 0.035790853729982045,
+        "ideal_astrology": 0.09071534205884495,
+        "ideal_combined": 0.126506195788827,
+        "saju_fraction_within_attribute": 0.28291779313107046,
+        "production_saju": 0.035774653237191464,
+        "production_astrology": 0.09067428036034211,
+        "intermediate_rounding_residual": 5.064541247523971e-05,
+        "final_rounding_residual": 4.209899912011039e-07,
+        "routed_combined": 0.1265
+      },
+      "water": {
+        "ideal_saju": 0.04597519151051843,
+        "ideal_astrology": 0.08478081189692792,
+        "ideal_combined": 0.13075600340744636,
+        "saju_fraction_within_attribute": 0.3516105594574958,
+        "production_saju": 0.04595438114471294,
+        "production_astrology": 0.08474243642418065,
+        "intermediate_rounding_residual": 5.6976089034628856e-05,
+        "final_rounding_residual": 4.620634207178065e-05,
+        "routed_combined": 0.1308
+      },
+      "sunlight": {
+        "ideal_saju": 0.04198505917112918,
+        "ideal_astrology": 0.0909243489909082,
+        "ideal_combined": 0.1329094081620374,
+        "saju_fraction_within_attribute": 0.3158923040266857,
+        "production_saju": 0.041966054912288484,
+        "production_astrology": 0.09088319268680244,
+        "intermediate_rounding_residual": 6.963744215342121e-05,
+        "final_rounding_residual": -1.8885041244365297e-05,
+        "routed_combined": 0.1329
+      },
+      "open_sky": {
+        "ideal_saju": 0.04439180566155445,
+        "ideal_astrology": 0.10254640112230388,
+        "ideal_combined": 0.14693820678385833,
+        "saju_fraction_within_attribute": 0.30211206896551723,
+        "production_saju": 0.044371712004861966,
+        "production_astrology": 0.1024999841733086,
+        "intermediate_rounding_residual": 5.064541247521159e-05,
+        "final_rounding_residual": -2.234159064579133e-05,
+        "routed_combined": 0.1469
+      },
+      "quiet": {
+        "ideal_saju": 0.04178238578246178,
+        "ideal_astrology": 0.07546100278992586,
+        "ideal_combined": 0.11724338857238764,
+        "saju_fraction_within_attribute": 0.3563730653917835,
+        "production_saju": 0.04176347326238755,
+        "production_astrology": 0.07542684586701781,
+        "intermediate_rounding_residual": 4.748007419553108e-05,
+        "final_rounding_residual": -3.7799203600891174e-05,
+        "routed_combined": 0.1172
+      },
+      "vibrant": {
+        "ideal_saju": 0.03944530826939094,
+        "ideal_astrology": 0.08695955082510237,
+        "ideal_combined": 0.1264048590944933,
+        "saju_fraction_within_attribute": 0.3120553161639443,
+        "production_saju": 0.03942745361196751,
+        "production_astrology": 0.0869201891606156,
+        "intermediate_rounding_residual": 7.596811871283848e-05,
+        "final_rounding_residual": -2.361089129593319e-05,
+        "routed_combined": 0.1264
+      },
+      "rest": {
+        "ideal_saju": 0.033276437001827225,
+        "ideal_astrology": 0.06803492315828474,
+        "ideal_combined": 0.10131136016011197,
+        "saju_fraction_within_attribute": 0.3284571142785697,
+        "production_saju": 0.03326137464310811,
+        "production_astrology": 0.06800412760111672,
+        "intermediate_rounding_residual": 5.064541247525377e-05,
+        "final_rounding_residual": -1.614765670007734e-05,
+        "routed_combined": 0.1013
+      },
+      "culture": {
+        "ideal_saju": 0.03515749939039645,
+        "ideal_astrology": 0.08277307864044157,
+        "ideal_combined": 0.11793057803083803,
+        "saju_fraction_within_attribute": 0.29812030075187973,
+        "production_saju": 0.03514158558125107,
+        "production_astrology": 0.08273561195484962,
+        "intermediate_rounding_residual": 5.064541247523971e-05,
+        "final_rounding_residual": -2.7842948575912407e-05,
+        "routed_combined": 0.1179
+      }
+    }
+  },
+  "unrounded_blend_check": {
+    "quality": {
+      "activation": 0.4685,
+      "receptivity": 0.5945,
+      "clarity": 0.384,
+      "expansion": 0.355,
+      "grounding": 0.083,
+      "flow": 0.253
+    },
+    "weights": {
+      "green": 0.1265,
+      "water": 0.1308,
+      "sunlight": 0.1329,
+      "open_sky": 0.1469,
+      "quiet": 0.1172,
+      "vibrant": 0.1264,
+      "rest": 0.1013,
+      "culture": 0.1179
+    },
+    "segment_ids": [
+      0,
+      13,
+      27,
+      28,
+      41,
+      54,
+      68,
+      70,
+      72,
+      74,
+      75,
+      83
+    ],
+    "same_segment_sequence": true
+  }
+}
